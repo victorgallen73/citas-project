@@ -1,5 +1,5 @@
 
-const Patient = ({patient}) => {
+const Patient = ({patient, setPatient}) => {
 
   const {name, owner, email, entryDate, symptom} = patient;
   
@@ -20,6 +20,18 @@ const Patient = ({patient}) => {
         <p className="font-bold mb-3 text-gray-700 uppercase"> Symptom: {''}
           <span className="font-normal normal-case">{symptom}</span>
         </p>
+        
+        <div className="flex justify-between mt-10">
+          <button
+            type="button"
+            className="py-2 px-10 bg-indigo-600 hover:bg-indigo-700 rounded-md text-white font-bold"
+            onClick={() => setPatient(patient)}
+          >Edit</button>
+          <button
+            type="button"
+            className="py-2 px-10 bg-red-800 hover:bg-red-900 rounded-md text-white font-bold"
+          >Delete</button>
+        </div>
       </div>
   )
 }
