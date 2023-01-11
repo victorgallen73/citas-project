@@ -1,6 +1,7 @@
 import { useState } from "react";
+import Error from "./Error";
 
-const Form = () => {
+const Form = ({patients, setPatients}) => {
 
   const [name, setName] = useState('');
   const [owner, setOwner] = useState('');
@@ -8,6 +9,12 @@ const Form = () => {
   const [entryDate, setEntryDate] = useState('');
   const [symptom, setSymptom] = useState('');
   const [error, setError] = useState(false);
+
+  const generateId = () => {
+    const random = Math.random().toString(36).substring(2);
+    const date = Date.now().toString(36);
+    return random + date;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,6 +25,24 @@ const Form = () => {
       return;
     } 
     setError(false);
+
+    // Patient object
+    const patientObject = {
+      name,
+      owner,
+      email,
+      entryDate,
+      symptom,
+      id: generateId()
+    }
+    setPatients([...patients, patientObject]);
+
+    //Reset form
+    // setName('');
+    // setOwner('');
+    // setEmail('');
+    // setEntryDate('');
+    // setSymptom('');
   }
 
   return (
@@ -31,10 +56,9 @@ const Form = () => {
         <form
           onSubmit={handleSubmit}
           className="bg-white shadow-md rounded-lg py-10 px-5 mb-10">
-            {error && (
-            <div className="bg-red-800 text-white text-center p-3 uppercase font-bold mb-3 rounded-md">
-              <p>All fields are required</p>
-            </div>)}
+            {error && 
+            <Error message='All fields are required' />
+            }
           <div className="mb-5">
             <label htmlFor="pet" className="block text-gray-700 uppercase font-bold">
               Pet name
